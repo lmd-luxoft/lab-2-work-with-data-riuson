@@ -5,15 +5,21 @@ namespace Monopoly
 {
     public class Monopoly
     {
+        private readonly IBuyStrategy _buying;
         private readonly Dictionary<MonopolyType, IMonopolyType> _monopolies;
+        private readonly IRentStrategy _renting;
 
         internal Monopoly(
             IEnumerable<string> names,
-            IEnumerable<IMonopolyType> monopolies)
+            IEnumerable<IMonopolyType> monopolies,
+            IBuyStrategy buying,
+            IRentStrategy renting)
         {
             if ((names?.Any() ?? false) == false) throw new MonopolyException("Список имён пуст.");
 
             if (names.Distinct().Count() < names.Count()) throw new MonopolyException("Список имён содержит повторы.");
+            _buying = buying;
+            _renting = renting;
 
             foreach (var name in names) Players.Add(name, 6000);
 
@@ -41,13 +47,7 @@ namespace Monopoly
 
             var monopoly = _monopolies[asset.Type];
 
-            if (!monopoly.CanBuy) return false;
-
-            if (asset.Owner != null) return false;
-
-            buyer.Cash -= monopoly.BuySumm;
-            asset.Owner = buyer;
-            return true;
+            return _buying.Buy(buyer, asset, monopoly);
         }
 
         public bool Renta(IPlayer renter, IAsset asset)
@@ -57,45 +57,7 @@ namespace Monopoly
             if (asset == null) throw new MonopolyException("Не указано имущество.");
 
             var monopoly = _monopolies[asset.Type];
-
-            if (monopoly.CanHaveOwner && asset.Owner == null) return false;
-
-            if (monopoly.CanHaveOwner)
-            {
-                renter.Cash -= monopoly.RentaSummMinus;
-                asset.Owner.Cash += monopoly.RentaSummPlus;
-            }
-            else
-            {
-                renter.Cash -= monopoly.RentaSummMinus;
-            }
-
-            return true;
-        }
-    }
-
-    public static class MonopolyFactory
-    {
-        public static Monopoly Create(IEnumerable<string> names)
-        {
-            var monopolies = new IMonopolyType[]
-            {
-                new AutoMonopoly(),
-                new FoodMonopoly(),
-                new ClotherMonopoly(),
-                new TravelMonopoly(),
-                new PrisonMonopoly(),
-                new BankMonopoly()
-            };
-
-            return new Monopoly(names, monopolies);
-        }
-
-        public static Monopoly Create(
-            IEnumerable<string> names,
-            IEnumerable<IMonopolyType> monopolies)
-        {
-            return new Monopoly(names, monopolies);
+            return _renting.Rent(renter, asset, monopoly);
         }
     }
 }
