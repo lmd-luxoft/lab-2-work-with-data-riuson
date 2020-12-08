@@ -40,11 +40,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMonopoly.cs" />
+    <Compile Include="BankMonopoly.cs" />
+    <Compile Include="ClotherMonopoly.cs" />
     <Compile Include="FieldData.cs" />
+    <Compile Include="FoodMonopoly.cs" />
+    <Compile Include="IMonopolyType.cs" />
     <Compile Include="Monopoly.cs" />
     <Compile Include="MonopolyException.cs" />
     <Compile Include="PlayerInfo.cs" />
+    <Compile Include="PrisonMonopoly.cs" />
     <Compile Include="TestClass.cs" />
+    <Compile Include="TravelMonopoly.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

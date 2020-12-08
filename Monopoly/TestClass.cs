@@ -57,7 +57,7 @@ namespace Monopoly
             var expectedPlayer = new PlayerInfo("Peter", 5500);
             Assert.AreEqual(expectedPlayer, actualPlayer);
             var actualField = monopoly.GetFieldByName("Ford");
-            Assert.AreEqual(1, actualField.Money);
+            Assert.AreEqual(1, actualField.Owner);
         }
 
         [Test]

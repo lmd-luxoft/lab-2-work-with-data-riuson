@@ -2,18 +2,18 @@
 {
     public class FieldData
     {
-        public FieldData(string name, Monopoly.Type type, int money = 0, bool flag = false)
+        public FieldData(string name, Monopoly.Type type, int owner = 0, bool isFree = false)
         {
             Name = name;
             Type = type;
-            Money = money;
-            Flag = flag;
+            Owner = owner;
+            IsFree = isFree;
         }
 
         public string Name { get; }
         public Monopoly.Type Type { get; }
-        public int Money { get; }
-        public bool Flag { get; }
+        public int Owner { get; }
+        public bool IsFree { get; }
 
         public override bool Equals(object obj)
         {
@@ -21,8 +21,8 @@
             {
                 return c.Name == this.Name
                        && c.Type == this.Type
-                       && c.Money == this.Money
-                       && c.Flag == this.Flag;
+                       && c.Owner == this.Owner
+                       && c.IsFree == this.IsFree;
             }
 
             return false;
