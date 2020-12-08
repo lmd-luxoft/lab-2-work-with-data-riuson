@@ -5,29 +5,80 @@ namespace Monopoly
 {
     public class Monopoly
     {
-        public enum Type
-        {
-            AUTO,
-            FOOD,
-            CLOTHER,
-            TRAVEL,
-            PRISON,
-            BANK
-        }
+        private readonly Dictionary<MonopolyType, IMonopolyType> _monopolies;
 
-        private readonly List<FieldData> _fields = new List<FieldData>();
-        private readonly Dictionary<Type, IMonopolyType> _monopolies;
-        private readonly List<PlayerInfo> _players = new List<PlayerInfo>();
-
-        public Monopoly(IEnumerable<string> names)
+        internal Monopoly(
+            IEnumerable<string> names,
+            IEnumerable<IMonopolyType> monopolies)
         {
             if ((names?.Any() ?? false) == false) throw new MonopolyException("Список имён пуст.");
 
             if (names.Distinct().Count() < names.Count()) throw new MonopolyException("Список имён содержит повторы.");
 
-            foreach (var name in names) _players.Add(new PlayerInfo(name, 6000));
+            foreach (var name in names) Players.Add(name, 6000);
 
-            _monopolies = new IMonopolyType[]
+            _monopolies = monopolies.ToDictionary(x => x.Type);
+
+            Assets.Add("Ford", MonopolyType.Auto);
+            Assets.Add("MCDonald", MonopolyType.Food);
+            Assets.Add("Lamoda", MonopolyType.Clother);
+            Assets.Add("Air Baltic", MonopolyType.Travel);
+            Assets.Add("Nordavia", MonopolyType.Travel);
+            Assets.Add("Prison", MonopolyType.Prison);
+            //Assets.Add("MCDonald", MonopolyType.Food); // ???
+            Assets.Add("TESLA", MonopolyType.Auto);
+        }
+
+        public IPlayers Players { get; } = new Players();
+
+        public IAssets Assets { get; } = new Assets();
+
+        public bool Buy(IPlayer buyer, IAsset asset)
+        {
+            if (buyer == null) throw new MonopolyException("Не указан покупатель.");
+
+            if (asset == null) throw new MonopolyException("Не указано имущество.");
+
+            var monopoly = _monopolies[asset.Type];
+
+            if (!monopoly.CanBuy) return false;
+
+            if (asset.Owner != null) return false;
+
+            buyer.Cash -= monopoly.BuySumm;
+            asset.Owner = buyer;
+            return true;
+        }
+
+        public bool Renta(IPlayer renter, IAsset asset)
+        {
+            if (renter == null) throw new MonopolyException("Не указан арендатор.");
+
+            if (asset == null) throw new MonopolyException("Не указано имущество.");
+
+            var monopoly = _monopolies[asset.Type];
+
+            if (monopoly.CanHaveOwner && asset.Owner == null) return false;
+
+            if (monopoly.CanHaveOwner)
+            {
+                renter.Cash -= monopoly.RentaSummMinus;
+                asset.Owner.Cash += monopoly.RentaSummPlus;
+            }
+            else
+            {
+                renter.Cash -= monopoly.RentaSummMinus;
+            }
+
+            return true;
+        }
+    }
+
+    public static class MonopolyFactory
+    {
+        public static Monopoly Create(IEnumerable<string> names)
+        {
+            var monopolies = new IMonopolyType[]
             {
                 new AutoMonopoly(),
                 new FoodMonopoly(),
@@ -35,155 +86,16 @@ namespace Monopoly
                 new TravelMonopoly(),
                 new PrisonMonopoly(),
                 new BankMonopoly()
-            }.ToDictionary(x => x.Type);
+            };
 
-            _fields.Add(new FieldData("Ford", Type.AUTO));
-            _fields.Add(new FieldData("MCDonald", Type.FOOD));
-            _fields.Add(new FieldData("Lamoda", Type.CLOTHER));
-            _fields.Add(new FieldData("Air Baltic", Type.TRAVEL));
-            _fields.Add(new FieldData("Nordavia", Type.TRAVEL));
-            _fields.Add(new FieldData("Prison", Type.PRISON));
-            _fields.Add(new FieldData("MCDonald", Type.FOOD));
-            _fields.Add(new FieldData("TESLA", Type.AUTO));
+            return new Monopoly(names, monopolies);
         }
 
-        public IEnumerable<PlayerInfo> Players => _players;
-
-        public IEnumerable<FieldData> Fields => _fields;
-
-        public FieldData GetFieldByName(string name)
+        public static Monopoly Create(
+            IEnumerable<string> names,
+            IEnumerable<IMonopolyType> monopolies)
         {
-            return _fields.FirstOrDefault(x => x.Name == name);
-        }
-
-        public bool Buy(int playerNumber, FieldData k)
-        {
-            var x = GetPlayerInfo(playerNumber);
-            var cash = 0;
-
-            var monopoly = _monopolies[k.Type];
-
-            if (monopoly.CanBuy)
-            {
-                if (k.Owner != 0) return false;
-
-                cash = x.Cash - monopoly.BuySumm;
-                _players[playerNumber - 1] = new PlayerInfo(x.Name, cash);
-            }
-
-            /*
-            switch(k.Type)
-            {
-                case Type.AUTO:
-                    if (k.Owner != 0)
-                        return false;
-                    cash = x.Cash - 500;
-                    _players[playerNumber - 1] = new PlayerInfo(x.Name, cash);
-                    break;
-                case Type.FOOD:
-                    if (k.Owner != 0)
-                        return false;
-                    cash = x.Cash - 250;
-                    _players[playerNumber - 1] = new PlayerInfo(x.Name, cash);
-                    break;
-                case Type.TRAVEL:
-                    if (k.Owner != 0)
-                        return false;
-                    cash = x.Cash - 700;
-                    _players[playerNumber - 1] = new PlayerInfo(x.Name, cash);
-                    break;
-                case Type.CLOTHER:
-                    if (k.Owner != 0)
-                        return false;
-                    cash = x.Cash - 100;
-                    _players[playerNumber - 1] = new PlayerInfo(x.Name, cash);
-                    break;
-                default:
-                    return false;
-            }*/
-            var i = _players.Select((item, index) => new {name = item.Name, index})
-                .Where(n => n.name == x.Name)
-                .Select(p => p.index).FirstOrDefault();
-            _fields[i] = new FieldData(k.Name, k.Type, playerNumber, k.IsFree);
-            return true;
-        }
-
-        internal PlayerInfo GetPlayerInfo(int playerNumber)
-        {
-            if (playerNumber < 1 || playerNumber > _players.Count)
-                throw new MonopolyException("Неверный номер игрока.");
-
-            return _players[playerNumber - 1];
-        }
-
-        internal bool Renta(int playerNumber, FieldData data)
-        {
-            var z = GetPlayerInfo(playerNumber);
-            PlayerInfo o = null;
-
-            var monopoly = _monopolies[data.Type];
-
-            if (monopoly.HaveOwner && data.Owner == 0) return false;
-
-            if (monopoly.HaveOwner)
-            {
-                o = GetPlayerInfo(data.Owner);
-                z = new PlayerInfo(z.Name, z.Cash - monopoly.RentaSummMinus);
-                o = new PlayerInfo(o.Name, o.Cash + monopoly.RentaSummPlus);
-            }
-            else
-            {
-                z = new PlayerInfo(z.Name, z.Cash - monopoly.RentaSummMinus);
-            }
-
-            /*
-            switch(data.Type)
-            {
-                case Type.AUTO:
-                    if (data.Owner == 0)
-                        return false;
-                    o =  GetPlayerInfo(data.Owner);
-                    z = new PlayerInfo(z.Name, z.Cash - 250);
-                    o = new PlayerInfo(o.Name, o.Cash + 250);
-                    break;
-                case Type.FOOD:
-                    if (data.Owner == 0)
-                        return false;
-                    o = GetPlayerInfo(data.Owner);
-                    z = new PlayerInfo(z.Name, z.Cash - 250);
-                    o = new PlayerInfo(o.Name, o.Cash + 250);
-
-                    break;
-                case Type.TRAVEL:
-                    if (data.Owner == 0)
-                        return false;
-                    o = GetPlayerInfo(data.Owner);
-                    z = new PlayerInfo(z.Name, z.Cash - 300);
-                    o = new PlayerInfo(o.Name, o.Cash + 300);
-                    break;
-                case Type.CLOTHER:
-                    if (data.Owner == 0)
-                        return false;
-                    o = GetPlayerInfo(data.Owner);
-                    z = new PlayerInfo(z.Name, z.Cash - 100);
-                    o = new PlayerInfo(o.Name, o.Cash + 1000);
-
-                    break;
-                case Type.PRISON:
-                    z = new PlayerInfo(z.Name, z.Cash - 1000);
-                    break;
-                case Type.BANK:
-                    z = new PlayerInfo(z.Name, z.Cash - 700);
-                    break;
-                default:
-                    return false;
-            }
-            */
-
-            _players[playerNumber - 1] = z;
-            if (o != null)
-                _players[data.Owner - 1] = o;
-            return true;
+            return new Monopoly(names, monopolies);
         }
     }
 }

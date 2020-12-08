@@ -3,8 +3,8 @@
     internal class BankMonopoly : IMonopolyType
     {
         public bool CanBuy => false;
-        public bool HaveOwner => false;
-        public Monopoly.Type Type => Monopoly.Type.BANK;
+        public bool CanHaveOwner => false;
+        public MonopolyType Type => MonopolyType.Bank;
         public int BuySumm => throw new MonopolyException("Бесценно!");
         public int RentaSummMinus => 700;
         public int RentaSummPlus => 0;

@@ -1,10 +1,10 @@
 ﻿namespace Monopoly
 {
-    internal interface IMonopolyType
+    public interface IMonopolyType
     {
         bool CanBuy { get; }
-        bool HaveOwner { get; }
-        Monopoly.Type Type { get; }
+        bool CanHaveOwner { get; }
+        MonopolyType Type { get; }
         int BuySumm { get; }
         int RentaSummMinus { get; }
         int RentaSummPlus { get; }
