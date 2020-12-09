@@ -10,25 +10,19 @@ namespace ChessBoard.Lib.Tests.Implementation {
             // Arrange.
             var expectedHCells = 8;
             var expectedVCells = 8;
-            var expectedCellWidth = 16;
-            var expectedCellHeight = expectedCellWidth;
 
             var actualHCells = 0;
             var actualVCells = 0;
-            var actualCellWidth = 0;
-            var actualCellHeight = 0;
 
             var mockBoardDrawer = new Mock<IBoardDrawer>();
-            mockBoardDrawer.Setup(x => x.Create(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Callback<int, int, int, int>((a, b, c, d) => {
+            mockBoardDrawer.Setup(x => x.Create(It.IsAny<int>(), It.IsAny<int>()))
+                .Callback<int, int>((a, b) => {
                     actualHCells = a;
                     actualVCells = b;
-                    actualCellHeight = c;
-                    actualCellWidth = d;
                 })
                 .Verifiable();
 
-            var board = new Board(expectedHCells, expectedVCells, expectedCellWidth, expectedCellHeight);
+            var board = new Board(expectedHCells, expectedVCells);
             board.Drawer = mockBoardDrawer.Object;
 
             // Act.
@@ -36,12 +30,10 @@ namespace ChessBoard.Lib.Tests.Implementation {
 
             // Assert.
             mockBoardDrawer.Verify(
-                x => x.Create(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()),
+                x => x.Create(It.IsAny<int>(), It.IsAny<int>()),
                 Times.Once);
             Assert.That(actualHCells, Is.EqualTo(expectedHCells));
             Assert.That(actualVCells, Is.EqualTo(expectedVCells));
-            Assert.That(actualCellWidth, Is.EqualTo(expectedCellWidth));
-            Assert.That(actualCellHeight, Is.EqualTo(expectedCellHeight));
         }
 
         [Test]
@@ -49,14 +41,12 @@ namespace ChessBoard.Lib.Tests.Implementation {
             // Arrange.
             var expectedHCells = 8;
             var expectedVCells = 8;
-            var expectedCellWidth = 16;
-            var expectedCellHeight = expectedCellWidth;
 
             var mockBoardDrawer = new Mock<IBoardDrawer>();
             mockBoardDrawer.Setup(x => x.Draw())
                 .Verifiable();
 
-            var board = new Board(expectedHCells, expectedVCells, expectedCellWidth, expectedCellHeight);
+            var board = new Board(expectedHCells, expectedVCells);
             board.Drawer = mockBoardDrawer.Object;
 
             // Act.
@@ -71,10 +61,8 @@ namespace ChessBoard.Lib.Tests.Implementation {
             // Arrange.
             var expectedHCells = 8;
             var expectedVCells = 8;
-            var expectedCellWidth = 16;
-            var expectedCellHeight = expectedCellWidth;
 
-            var board = new Board(expectedHCells, expectedVCells, expectedCellWidth, expectedCellHeight);
+            var board = new Board(expectedHCells, expectedVCells);
 
             // Act & Assert.
             Assert.Throws<ChessBoardException>(() => board.Create());
@@ -85,10 +73,8 @@ namespace ChessBoard.Lib.Tests.Implementation {
             // Arrange.
             var expectedHCells = 8;
             var expectedVCells = 8;
-            var expectedCellWidth = 16;
-            var expectedCellHeight = expectedCellWidth;
 
-            var board = new Board(expectedHCells, expectedVCells, expectedCellWidth, expectedCellHeight);
+            var board = new Board(expectedHCells, expectedVCells);
 
             // Act & Assert.
             Assert.Throws<ChessBoardException>(() => board.Draw());
