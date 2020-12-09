@@ -6,4 +6,8 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\ChessBoard.Lib\ChessBoard.Lib.csproj" />
+    </ItemGroup>
+
 </Project>

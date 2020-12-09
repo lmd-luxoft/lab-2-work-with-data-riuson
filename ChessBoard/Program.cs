@@ -1,9 +1,23 @@
-﻿using System;
+﻿using Autofac;
+using ChessBoard.ConsoleOutput.Implementation;
+using ChessBoard.Lib.Shared;
+using System.Reflection;
 
 namespace ChessBoard {
     internal class Program {
         private static void Main(string[] args) {
-            Console.WriteLine("Hello World!");
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterAssemblyTypes(
+                    Assembly.GetExecutingAssembly(),
+                    typeof(BoardDrawer).Assembly,
+                    typeof(IBoard).Assembly
+                ).AsSelf()
+                .AsImplementedInterfaces();
+
+            using (var container = containerBuilder.Build()) {
+                var app = container.Resolve<App>();
+                app.Run();
+            }
         }
     }
 }

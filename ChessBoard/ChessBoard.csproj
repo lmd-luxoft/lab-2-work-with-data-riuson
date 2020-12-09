@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\ChessBoard.ConsoleOutput\ChessBoard.ConsoleOutput.csproj" />
         <ProjectReference Include="..\ChessBoard.Lib\ChessBoard.Lib.csproj" />
     </ItemGroup>
