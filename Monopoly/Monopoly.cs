@@ -6,12 +6,12 @@ namespace Monopoly
     public class Monopoly
     {
         private readonly IBuyStrategy _buying;
-        private readonly Dictionary<MonopolyType, IMonopolyType> _monopolies;
+        private readonly Dictionary<MonopolyType, MonopolyData> _monopolies;
         private readonly IRentStrategy _renting;
 
         internal Monopoly(
             IEnumerable<string> names,
-            IEnumerable<IMonopolyType> monopolies,
+            IEnumerable<MonopolyData> monopolies,
             IBuyStrategy buying,
             IRentStrategy renting)
         {

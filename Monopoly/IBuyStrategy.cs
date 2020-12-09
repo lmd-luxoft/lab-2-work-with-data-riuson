@@ -2,6 +2,6 @@
 {
     public interface IBuyStrategy
     {
-        bool Buy(IPlayer buyer, IAsset asset, IMonopolyType monopoly);
+        bool Buy(IPlayer buyer, IAsset asset, MonopolyData monopoly);
     }
 }

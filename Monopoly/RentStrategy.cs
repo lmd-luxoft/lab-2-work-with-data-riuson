@@ -2,7 +2,7 @@
 {
     internal class RentStrategy : IRentStrategy
     {
-        public bool Rent(IPlayer renter, IAsset asset, IMonopolyType monopoly)
+        public bool Rent(IPlayer renter, IAsset asset, MonopolyData monopoly)
         {
             if (monopoly.CanHaveOwner && asset.Owner == null) return false;
 

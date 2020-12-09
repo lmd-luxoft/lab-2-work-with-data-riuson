@@ -2,7 +2,7 @@
 {
     internal class BuyStrategy : IBuyStrategy
     {
-        public bool Buy(IPlayer buyer, IAsset asset, IMonopolyType monopoly)
+        public bool Buy(IPlayer buyer, IAsset asset, MonopolyData monopoly)
         {
             if (!monopoly.CanBuy) return false;
 
