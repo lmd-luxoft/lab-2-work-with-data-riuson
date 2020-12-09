@@ -22,7 +22,8 @@ namespace ChessBoard.Lib.Tests.Implementation {
                 })
                 .Verifiable();
 
-            var board = new Board(expectedHCells, expectedVCells);
+            var board = new Board();
+            board.SetSize(expectedHCells, expectedVCells);
             board.Drawer = mockBoardDrawer.Object;
 
             // Act.
@@ -39,14 +40,11 @@ namespace ChessBoard.Lib.Tests.Implementation {
         [Test]
         public void BoardShouldDraw() {
             // Arrange.
-            var expectedHCells = 8;
-            var expectedVCells = 8;
-
             var mockBoardDrawer = new Mock<IBoardDrawer>();
             mockBoardDrawer.Setup(x => x.Draw())
                 .Verifiable();
 
-            var board = new Board(expectedHCells, expectedVCells);
+            var board = new Board();
             board.Drawer = mockBoardDrawer.Object;
 
             // Act.
@@ -59,10 +57,7 @@ namespace ChessBoard.Lib.Tests.Implementation {
         [Test]
         public void BoardShouldFailCreateWithoutDrawer() {
             // Arrange.
-            var expectedHCells = 8;
-            var expectedVCells = 8;
-
-            var board = new Board(expectedHCells, expectedVCells);
+            var board = new Board();
 
             // Act & Assert.
             Assert.Throws<ChessBoardException>(() => board.Create());
@@ -71,10 +66,7 @@ namespace ChessBoard.Lib.Tests.Implementation {
         [Test]
         public void BoardShouldFailDrawWithoutDrawer() {
             // Arrange.
-            var expectedHCells = 8;
-            var expectedVCells = 8;
-
-            var board = new Board(expectedHCells, expectedVCells);
+            var board = new Board();
 
             // Act & Assert.
             Assert.Throws<ChessBoardException>(() => board.Draw());

@@ -2,15 +2,15 @@
 
 namespace ChessBoard.Lib.Implementation {
     internal class Board : IBoard {
-        public Board(int hCells, int vCells) {
+        public IBoardDrawer Drawer { get; set; }
+
+        public int HCells { get; private set; }
+        public int VCells { get; private set; }
+
+        public void SetSize(int hCells, int vCells) {
             this.HCells = hCells;
             this.VCells = vCells;
         }
-
-        public IBoardDrawer Drawer { get; set; }
-
-        public int HCells { get; }
-        public int VCells { get; }
 
         public void Create() {
             var drawer = this.Drawer ?? throw new ChessBoardException("Не указана реализация вывода!");
