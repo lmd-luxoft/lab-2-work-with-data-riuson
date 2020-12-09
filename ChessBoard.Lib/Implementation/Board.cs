@@ -1,9 +1,12 @@
-﻿using System;
-using ChessBoard.Lib.Shared;
+﻿using ChessBoard.Lib.Shared;
 
 namespace ChessBoard.Lib.Implementation {
     internal class Board : IBoard {
         public Board(int hCells, int vCells, int cellWidth, int cellHeight) {
+            this.HCells = hCells;
+            this.VCells = vCells;
+            this.CellWidth = cellWidth;
+            this.CellHeight = cellHeight;
         }
 
         public IBoardDrawer Drawer { get; set; }
@@ -14,11 +17,13 @@ namespace ChessBoard.Lib.Implementation {
         public int CellHeight { get; }
 
         public void Create() {
-            throw new NotImplementedException();
+            var drawer = this.Drawer ?? throw new ChessBoardException("Не указана реализация вывода!");
+            drawer.Create(this.HCells, this.VCells, this.CellWidth, this.CellHeight);
         }
 
         public void Draw() {
-            throw new NotImplementedException();
+            var drawer = this.Drawer ?? throw new ChessBoardException("Не указана реализация вывода!");
+            drawer.Draw();
         }
     }
 }
