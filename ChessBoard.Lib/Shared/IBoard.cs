@@ -3,9 +3,9 @@
         int HCells { get; }
         int VCells { get; }
 
-        void SetSize(int hCells, int vCells);
-
         IBoardDrawer Drawer { get; set; }
+
+        void SetSize(int hCells, int vCells);
 
         void Create();
         void Draw();
