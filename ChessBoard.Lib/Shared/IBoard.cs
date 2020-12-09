@@ -5,6 +5,8 @@
 
         void SetSize(int hCells, int vCells);
 
+        IBoardDrawer Drawer { get; set; }
+
         void Create();
         void Draw();
     }
