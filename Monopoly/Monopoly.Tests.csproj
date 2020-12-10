@@ -40,7 +40,22 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuyStrategy.cs" />
+    <Compile Include="IAsset.cs" />
+    <Compile Include="IAssets.cs" />
+    <Compile Include="Asset.cs" />
+    <Compile Include="Assets.cs" />
+    <Compile Include="IBuyStrategy.cs" />
+    <Compile Include="IPlayers.cs" />
+    <Compile Include="IRentStrategy.cs" />
     <Compile Include="Monopoly.cs" />
+    <Compile Include="MonopolyData.cs" />
+    <Compile Include="MonopolyException.cs" />
+    <Compile Include="MonopolyFactory.cs" />
+    <Compile Include="MonopolyType.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Players.cs" />
+    <Compile Include="RentStrategy.cs" />
     <Compile Include="TestClass.cs" />
   </ItemGroup>
   <ItemGroup>
