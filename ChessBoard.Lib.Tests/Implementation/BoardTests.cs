@@ -1,6 +1,7 @@
 ﻿using ChessBoard.Lib.Shared;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChessBoard.Lib.Tests.Implementation {
@@ -39,7 +40,7 @@ namespace ChessBoard.Lib.Tests.Implementation {
         public void BoardShouldDraw() {
             // Arrange.
             var mockBoardDrawer = new Mock<IBoardDrawer>();
-            mockBoardDrawer.Setup(x => x.Draw())
+            mockBoardDrawer.Setup(x => x.Draw(It.IsAny<IEnumerable<FigureAtPosition>>()))
                 .Verifiable();
 
             var board = new Board();
@@ -49,7 +50,7 @@ namespace ChessBoard.Lib.Tests.Implementation {
             board.Draw();
 
             // Assert.
-            mockBoardDrawer.Verify(x => x.Draw(), Times.Once);
+            mockBoardDrawer.Verify(x => x.Draw(It.IsAny<IEnumerable<FigureAtPosition>>()), Times.Once);
         }
 
         [Test]

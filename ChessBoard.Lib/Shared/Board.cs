@@ -33,7 +33,7 @@ namespace ChessBoard.Lib.Shared {
 
         public void Draw() {
             var drawer = this.Drawer ?? throw new ChessBoardException("Не указана реализация вывода!");
-            drawer.Draw();
+            drawer.Draw(this.GetFiguresOnBoard());
         }
 
         public Figure GetFigureAt(int x, int y) => this._figures[x, y];

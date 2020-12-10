@@ -11,6 +11,7 @@ namespace ChessBoard.Lib.Shared {
 
                 for (var x = 0; x < this.HCells; x++) {
                     result.Add(new FigureAtPosition(new Figure(FigureType.Pawn, Side.Black), x, 1));
+                    result.Add(new FigureAtPosition(new Figure(FigureType.Pawn, Side.White), x, 6));
                 }
 
                 var row0 = new[] {
