@@ -1,4 +1,6 @@
-﻿namespace ChessBoard.Lib.Shared {
+﻿using System.Collections.Generic;
+
+namespace ChessBoard.Lib.Shared {
     public class Board {
         public IBoardDrawer Drawer { get; set; }
 
@@ -19,5 +21,9 @@
             var drawer = this.Drawer ?? throw new ChessBoardException("Не указана реализация вывода!");
             drawer.Draw();
         }
+
+        public Figure GetFigureAt(int x, int y) => throw new NotImplementedException();
+
+        public IEnumerable<FigureAtPosition> GetFiguresOnBoard() => throw new NotImplementedException();
     }
 }
