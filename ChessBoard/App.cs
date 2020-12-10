@@ -2,11 +2,11 @@
 
 namespace ChessBoard {
     public class App {
-        private readonly IBoard _board;
+        private readonly Board _board;
         private readonly IBoardDrawer _drawer;
 
         public App(
-            IBoard board,
+            Board board,
             IBoardDrawer drawer) {
             this._board = board;
             this._drawer = drawer;

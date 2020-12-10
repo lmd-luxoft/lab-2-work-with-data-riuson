@@ -1,7 +1,5 @@
-﻿using ChessBoard.Lib.Shared;
-
-namespace ChessBoard.Lib.Implementation {
-    internal class Board : IBoard {
+﻿namespace ChessBoard.Lib.Shared {
+    public class Board {
         public IBoardDrawer Drawer { get; set; }
 
         public int HCells { get; private set; }

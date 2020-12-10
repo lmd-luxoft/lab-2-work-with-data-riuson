@@ -1,5 +1,4 @@
-﻿using ChessBoard.Lib.Implementation;
-using ChessBoard.Lib.Shared;
+﻿using ChessBoard.Lib.Shared;
 using Moq;
 using NUnit.Framework;
 

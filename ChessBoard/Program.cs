@@ -10,7 +10,7 @@ namespace ChessBoard {
             containerBuilder.RegisterAssemblyTypes(
                     Assembly.GetExecutingAssembly(),
                     typeof(BoardDrawer).Assembly,
-                    typeof(IBoard).Assembly
+                    typeof(Board).Assembly
                 ).AsSelf()
                 .AsImplementedInterfaces();
 
