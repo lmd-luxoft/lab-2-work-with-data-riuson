@@ -7,22 +7,20 @@ namespace ChessBoard.Lib.Tests.Implementation {
         [Test]
         public void BoardShouldCreate() {
             // Arrange.
-            var expectedHCells = 8;
-            var expectedVCells = 8;
-
             var actualHCells = 0;
             var actualVCells = 0;
+            var initializationData = new BoardInitializationData();
 
             var mockBoardDrawer = new Mock<IBoardDrawer>();
             mockBoardDrawer.Setup(x => x.Create(It.IsAny<int>(), It.IsAny<int>()))
                 .Callback<int, int>((a, b) => {
-                    actualHCells = a;
-                    actualVCells = b;
+                    actualHCells = initializationData.HCells;
+                    actualVCells = initializationData.VCells;
                 })
                 .Verifiable();
 
             var board = new Board();
-            board.SetSize(expectedHCells, expectedVCells);
+            board.Initialize(initializationData);
             board.Drawer = mockBoardDrawer.Object;
 
             // Act.
@@ -32,8 +30,8 @@ namespace ChessBoard.Lib.Tests.Implementation {
             mockBoardDrawer.Verify(
                 x => x.Create(It.IsAny<int>(), It.IsAny<int>()),
                 Times.Once);
-            Assert.That(actualHCells, Is.EqualTo(expectedHCells));
-            Assert.That(actualVCells, Is.EqualTo(expectedVCells));
+            Assert.That(actualHCells, Is.EqualTo(initializationData.HCells));
+            Assert.That(actualVCells, Is.EqualTo(initializationData.VCells));
         }
 
         [Test]

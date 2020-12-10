@@ -5,9 +5,9 @@
         public int HCells { get; private set; }
         public int VCells { get; private set; }
 
-        public void SetSize(int hCells, int vCells) {
-            this.HCells = hCells;
-            this.VCells = vCells;
+        public void Initialize(BoardInitializationData initializationData) {
+            this.HCells = initializationData.HCells;
+            this.VCells = initializationData.VCells;
         }
 
         public void Create() {
