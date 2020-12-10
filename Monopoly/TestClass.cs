@@ -9,20 +9,13 @@ namespace Monopoly
     public class TestClass
     {
         [Test]
-        public void GetPlayersListReturnCorrectList()
+        public void CannotAddClones()
         {
-            var players = new[] {"Peter", "Ekaterina", "Alexander"};
-            var expectedPlayers = new[]
-            {
-                new Player("Peter", 6000),
-                new Player("Ekaterina", 6000),
-                new Player("Alexander", 6000)
-            };
-            var monopoly = MonopolyFactory.Create(players);
+            // Arrange.
+            string[] players = {"Peter", "Ekaterina", "Alexander", "Peter"};
 
-            var actualPlayers = monopoly.Players;
-
-            Assert.AreEqual(expectedPlayers, actualPlayers);
+            // Act & Assert.
+            Assert.Throws<MonopolyException>(() => MonopolyFactory.Create(players));
         }
 
         [Test]
@@ -47,6 +40,23 @@ namespace Monopoly
             var monopoly = MonopolyFactory.Create(players);
             var actualAssets = monopoly.Assets;
             Assert.AreEqual(expectedAssets, actualAssets);
+        }
+
+        [Test]
+        public void GetPlayersListReturnCorrectList()
+        {
+            var players = new[] {"Peter", "Ekaterina", "Alexander"};
+            var expectedPlayers = new[]
+            {
+                new Player("Peter", 6000),
+                new Player("Ekaterina", 6000),
+                new Player("Alexander", 6000)
+            };
+            var monopoly = MonopolyFactory.Create(players);
+
+            var actualPlayers = monopoly.Players;
+
+            Assert.AreEqual(expectedPlayers, actualPlayers);
         }
 
         [Test]
@@ -93,16 +103,6 @@ namespace Monopoly
 
             var player2 = monopoly.Players.ByName("Ekaterina");
             Assert.AreEqual(5750, player2.Cash);
-        }
-
-        [Test]
-        public void CannotAddClones()
-        {
-            // Arrange.
-            string[] players = {"Peter", "Ekaterina", "Alexander", "Peter"};
-
-            // Act & Assert.
-            Assert.Throws<MonopolyException>(() => MonopolyFactory.Create(players));
         }
     }
 }

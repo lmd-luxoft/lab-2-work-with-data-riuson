@@ -2,9 +2,9 @@
 
 namespace Monopoly
 {
-    public interface IPlayers : IEnumerable<IPlayer>
+    public interface IPlayers : IEnumerable<Player>
     {
         void Add(string name, int cash);
-        IPlayer ByName(string name);
+        Player ByName(string name);
     }
 }

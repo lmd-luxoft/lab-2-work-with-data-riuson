@@ -1,6 +1,6 @@
 ﻿namespace Monopoly
 {
-    internal class Player : IPlayer
+    public class Player
     {
         public Player(string name, int cash = 0)
         {

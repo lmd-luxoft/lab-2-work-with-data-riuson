@@ -2,7 +2,7 @@
 {
     internal class Asset : IAsset
     {
-        public Asset(string name, MonopolyType type, IPlayer owner = null, bool flag = false)
+        public Asset(string name, MonopolyType type, Player owner = null, bool flag = false)
         {
             Name = name;
             Type = type;
@@ -12,7 +12,7 @@
 
         public string Name { get; }
         public MonopolyType Type { get; }
-        public IPlayer Owner { get; set; }
+        public Player Owner { get; set; }
         public bool Flag { get; set; }
 
         public override bool Equals(object obj)

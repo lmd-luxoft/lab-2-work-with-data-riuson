@@ -6,9 +6,9 @@ namespace Monopoly
 {
     internal class Players : IPlayers
     {
-        private readonly List<IPlayer> _players = new List<IPlayer>();
+        private readonly List<Player> _players = new List<Player>();
 
-        public IEnumerator<IPlayer> GetEnumerator()
+        public IEnumerator<Player> GetEnumerator()
         {
             return _players.GetEnumerator();
         }
@@ -25,7 +25,7 @@ namespace Monopoly
             _players.Add(new Player(name, cash));
         }
 
-        public IPlayer ByName(string name)
+        public Player ByName(string name)
         {
             return _players.FirstOrDefault(x => x.Name == name)
                    ?? throw new MonopolyException("Неизвестный игрок.");

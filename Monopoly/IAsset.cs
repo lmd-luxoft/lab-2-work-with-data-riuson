@@ -4,7 +4,7 @@
     {
         string Name { get; }
         MonopolyType Type { get; }
-        IPlayer Owner { get; set; }
+        Player Owner { get; set; }
         bool Flag { get; set; }
     }
 }

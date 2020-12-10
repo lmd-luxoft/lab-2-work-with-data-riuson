@@ -2,6 +2,6 @@
 {
     public interface IRentStrategy
     {
-        bool Rent(IPlayer renter, IAsset asset, MonopolyData monopoly);
+        bool Rent(Player renter, IAsset asset, MonopolyData monopoly);
     }
 }

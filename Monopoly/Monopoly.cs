@@ -39,7 +39,7 @@ namespace Monopoly
 
         public IAssets Assets { get; } = new Assets();
 
-        public bool Buy(IPlayer buyer, IAsset asset)
+        public bool Buy(Player buyer, IAsset asset)
         {
             if (buyer == null) throw new MonopolyException("Не указан покупатель.");
 
@@ -50,7 +50,7 @@ namespace Monopoly
             return _buying.Buy(buyer, asset, monopoly);
         }
 
-        public bool Renta(IPlayer renter, IAsset asset)
+        public bool Renta(Player renter, IAsset asset)
         {
             if (renter == null) throw new MonopolyException("Не указан арендатор.");
 

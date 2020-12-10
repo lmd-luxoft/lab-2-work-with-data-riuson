@@ -46,7 +46,6 @@
     <Compile Include="Asset.cs" />
     <Compile Include="Assets.cs" />
     <Compile Include="IBuyStrategy.cs" />
-    <Compile Include="IPlayer.cs" />
     <Compile Include="IPlayers.cs" />
     <Compile Include="IRentStrategy.cs" />
     <Compile Include="Monopoly.cs" />
